@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Judgement of Paris</title>
+
+  <style>
+    :root {
+      --bg: #070b14;
+      --bg-2: #0d1324;
+      --bg-3: #151c30;
+      --panel: rgba(13, 19, 36, 0.92);
+      --panel-2: rgba(20, 28, 49, 0.94);
+      --accent: #d8b35a;
+      --accent-hover: #efcb78;
+      --accent-soft: rgba(216, 179, 90, 0.18);
+      --text: #f8f6ef;
+      --muted: #c7cede;
+      --soft-text: #e7dfcb;
+      --line: rgba(216, 179, 90, 0.20);
+      --line-strong: rgba(216, 179, 90, 0.38);
+      --shadow: 0 28px 90px rgba(0, 0, 0, 0.55);
+      --glow: 0 0 24px rgba(216, 179, 90, 0.16);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--text);
+      min-height: 100vh;
+      padding: 24px;
+      background:
+        radial-gradient(circle at top, rgba(255, 235, 170, 0.10), transparent 24%),
+        radial-gradient(circle at 50% -10%, rgba(216, 179, 90, 0.14), transparent 32%),
+        linear-gradient(180deg, #1a223d 0%, var(--bg-2) 18%, var(--bg) 100%);
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.18;
+      background:
+        radial-gradient(circle at 20% 18%, rgba(255,255,255,0.05) 0 2px, transparent 3px),
+        radial-gradient(circle at 80% 12%, rgba(255,255,255,0.04) 0 1.5px, transparent 3px),
+        radial-gradient(circle at 65% 28%, rgba(255,255,255,0.05) 0 1.2px, transparent 2.6px),
+        radial-gradient(circle at 35% 35%, rgba(255,255,255,0.04) 0 1.5px, transparent 2.8px);
+    }
+
+    .page {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .game {
+      width: 100%;
+      background:
+        linear-gradient(180deg, rgba(24, 32, 56, 0.96), rgba(10, 14, 26, 0.96));
+      backdrop-filter: blur(10px);
+      border-radius: 30px;
+      padding: 42px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .game::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at top center, rgba(216, 179, 90, 0.12), transparent 30%),
+        linear-gradient(135deg, rgba(255, 235, 180, 0.05), transparent 36%);
+    }
+
+    .game::after {
+      content: "❦";
+      position: absolute;
+      top: 18px;
+      right: 22px;
+      font-size: 26px;
+      color: rgba(216, 179, 90, 0.28);
+      text-shadow: 0 0 12px rgba(216, 179, 90, 0.14);
+      pointer-events: none;
+    }
+
+    .progress {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 28px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .progress .dot {
+      flex: 1;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(216, 179, 90, 0.08);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .progress .dot.active {
+      background: linear-gradient(90deg, #b88b2d, var(--accent), #f1d489);
+      box-shadow: 0 0 12px rgba(216, 179, 90, 0.24);
+    }
+
+    .step-label {
+      font-size: 12px;
+      letter-spacing: 2.2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .intro-title,
+    .ending h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.1;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
+      color: var(--text);
+      text-shadow: 0 2px 18px rgba(216, 179, 90, 0.12);
+    }
+
+    .intro-title::after {
+      content: "◦ ◦ ◦";
+      display: block;
+      margin-top: 14px;
+      font-size: 0.95rem;
+      letter-spacing: 0.35rem;
+      color: rgba(216, 179, 90, 0.50);
+      text-shadow: none;
+    }
+
+    .intro-story {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 24px;
+      line-height: 1.95;
+      color: var(--muted);
+      font-size: 1.02rem;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+
+    .intro-story::before {
+      content: "🍎";
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      font-size: 1.1rem;
+      opacity: 0.18;
+      pointer-events: none;
+    }
+
+    .scenario {
+      font-size: clamp(1.35rem, 3vw, 1.8rem);
+      line-height: 1.5;
+      margin-bottom: 18px;
+      font-weight: 700;
+      position: relative;
+      z-index: 1;
+      color: var(--text);
+    }
+
+    .consequence {
+      background: linear-gradient(180deg, rgba(216, 179, 90, 0.10), rgba(216, 179, 90, 0.06));
+      border: 1px solid rgba(216, 179, 90, 0.22);
+      padding: 16px 18px;
+      border-radius: 16px;
+      margin-bottom: 24px;
+      color: var(--soft-text);
+      font-size: 15px;
+      line-height: 1.85;
+      position: relative;
+      z-index: 1;
+    }
+
+    .choices {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .choice {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--line);
+      color: var(--text);
+      text-align: left;
+      padding: 18px 20px;
+      border-radius: 16px;
+      font-size: 16px;
+      line-height: 1.55;
+      cursor: pointer;
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+
+    .choice:hover {
+      background:
+        linear-gradient(180deg, rgba(216, 179, 90, 0.16), rgba(216, 179, 90, 0.09));
+      border-color: var(--line-strong);
+      transform: translateY(-2px);
+      box-shadow: var(--glow);
+    }
+
+    .button-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .restart {
+      background: linear-gradient(90deg, #b88b2d, var(--accent), var(--accent-hover));
+      color: #1a1307;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 8px 24px rgba(216, 179, 90, 0.22);
+    }
+
+    .restart:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+      box-shadow: 0 10px 28px rgba(216, 179, 90, 0.30);
+    }
+
+    .ending {
+      text-align: center;
+      padding: 10px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .ending p {
+      color: var(--muted);
+      line-height: 1.85;
+      font-size: 17px;
+      margin-bottom: 18px;
+    }
+
+    .ending.bad-ending {
+      background:
+        radial-gradient(circle at top, rgba(140, 18, 18, 0.30), transparent 34%),
+        linear-gradient(180deg, #120d12, #050507);
+      border: 1px solid rgba(214, 70, 70, 0.28);
+      box-shadow:
+        0 0 30px rgba(150, 0, 0, 0.18),
+        inset 0 0 80px rgba(120, 0, 0, 0.10);
+      border-radius: 24px;
+      padding: 32px 24px;
+    }
+
+    .ending.bad-ending .step-label {
+      color: #ff7878;
+      text-shadow: 0 0 8px rgba(255, 80, 80, 0.28);
+    }
+
+    .ending.bad-ending h1 {
+      color: #ff5252;
+      text-shadow:
+        0 0 6px rgba(255, 0, 0, 0.24),
+        2px 0 rgba(255, 80, 80, 0.14),
+        -2px 0 rgba(120, 0, 0, 0.16);
+      animation: badGlitch 2.2s infinite steps(1);
+    }
+
+    .ending.bad-ending p {
+      color: #efc0c0;
+    }
+
+    .ending.bad-ending .restart {
+      background: linear-gradient(90deg, #7a1515, #b92e2e);
+      color: #fff4f4;
+      box-shadow: 0 0 18px rgba(180, 20, 20, 0.22);
+    }
+
+    .ending.good-ending {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      background:
+        radial-gradient(circle at top, rgba(255, 239, 180, 0.12), transparent 34%),
+        linear-gradient(180deg, rgba(33, 42, 70, 0.98), rgba(15, 19, 35, 0.98));
+      border: 1px solid rgba(216, 179, 90, 0.35);
+      box-shadow:
+        0 12px 36px rgba(0, 0, 0, 0.24),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+      border-radius: 24px;
+      padding: 32px 24px;
+    }
+
+    .ending.good-ending::before,
+    .ending.good-ending::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .ending.good-ending::before {
+      background:
+        radial-gradient(circle at 12% 18%, rgba(255,255,255,0.85) 0 2px, transparent 3px),
+        radial-gradient(circle at 84% 20%, rgba(255,245,210,0.88) 0 2.5px, transparent 4px),
+        radial-gradient(circle at 22% 72%, rgba(255,255,255,0.78) 0 1.8px, transparent 3px),
+        radial-gradient(circle at 76% 78%, rgba(255,236,179,0.76) 0 2.2px, transparent 4px),
+        radial-gradient(circle at 55% 12%, rgba(255,255,255,0.72) 0 1.6px, transparent 3px);
+      opacity: 0.55;
+      animation: sparkleTwinkle 3.2s ease-in-out infinite;
+    }
+
+    .ending.good-ending::after {
+      content: "❦";
+      inset: auto;
+      right: 18px;
+      bottom: 14px;
+      position: absolute;
+      font-size: 30px;
+      color: rgba(216, 179, 90, 0.22);
+    }
+
+    .ending.good-ending > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .ending.good-ending .step-label {
+      color: var(--accent);
+      text-shadow: 0 0 10px rgba(216, 179, 90, 0.16);
+    }
+
+    .ending.good-ending h1 {
+      color: #fff9eb;
+      text-shadow:
+        0 1px 0 rgba(255,255,255,0.10),
+        0 0 16px rgba(216, 179, 90, 0.12);
+    }
+
+    .ending.good-ending p {
+      color: #ebe5d7;
+    }
+
+    .bottom-art {
+      margin-top: 22px;
+      width: 100%;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.32);
+      position: relative;
+    }
+
+    .bottom-art::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(216, 179, 90, 0.06), transparent 35%, rgba(0,0,0,0.22));
+    }
+
+    .bottom-art img {
+      display: block;
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      object-position: center center;
+      filter: saturate(0.88) brightness(0.82) contrast(1.05);
+    }
+
+    .fade {
+      animation: fade 0.45s ease;
+    }
+
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes badGlitch {
+      0% { transform: translate(0); opacity: 1; }
+      10% { transform: translate(-1px, 0); }
+      12% { transform: translate(2px, -1px); }
+      14% { transform: translate(0, 0); }
+      35% { opacity: 0.96; }
+      36% { opacity: 0.82; }
+      37% { opacity: 1; }
+      62% { transform: translate(1px, 1px); }
+      64% { transform: translate(-2px, 0); }
+      66% { transform: translate(0, 0); }
+      100% { transform: translate(0); opacity: 1; }
+    }
+
+    @keyframes sparkleTwinkle {
+      0%, 100% { opacity: 0.28; transform: scale(1); }
+      50% { opacity: 0.72; transform: scale(1.03); }
+    }
+
+    @media (max-width: 700px) {
+      body {
+        padding: 14px;
+      }
+
+      .game {
+        padding: 24px;
+        border-radius: 20px;
+      }
+
+      .choice {
+        font-size: 15px;
+        padding: 16px;
+      }
+
+      .intro-story,
+      .consequence {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+<main class="page">
+  <section class="game">
+    <div class="progress" id="progress"></div>
+    <div id="content"></div>
+
+    <div class="bottom-art">
+      <img
+        src="https://greektraveltellers.com/images/Blog/Apple%20of%20Discord/The_Judgment_of_Paris_by_Claude_Lorrain.jpg"
+        alt="The Judgment of Paris painting by Claude Lorrain"
+      />
+    </div>
+  </section>
+</main>
+
+<script>
+  const TOTAL_STEPS = 5;
+
+  const INTRO_TEXT = `A golden apple rests in your hand.
+Before you, stand three beautiful goddesses, each awaiting your judgement.
+Moving with regal grace, Hera elegantly demands the prize belongs to her.
+Firmly and unshaken, Athena is convinced it is hers by right.
+Radiantly, Aphrodite smiles at you, as if the prize is already hers.
+
+"For the Fairest."
+Zeus himself has refused to choose. The burden is yours alone.
+Power. Wisdom. Love. Each gift stirs a hunger deep within you.
+
+But divine gifts are never simple.
+To honor one goddess, is to insult the others.
+Judgement awaits, as the fate of Troy unfolds in hands of the Prince.
+Choose, Paris, if you dare.`;
+
+  const OPENING_STEP = {
+    scenario: "Who receives the Apple of Discord?",
+    choices: [
+      {
+        key: "hera",
+        text: "Hera, queen of heaven, offers a crown and power to bring kingdoms to their knees.",
+        consequence: "You place the apple in Hera's hands. A smile of triumph touches her lips, and her promise settles over you like a crown. In that moment, power no longer feels distant: it feels inherited, intimate, and bound to the future of your bloodline."
+      },
+      {
+        key: "athena",
+        text: "Athena offers wisdom, flawless strategy, unyielding strength, and a warrior’s immortal name.",
+        consequence: "You give the apple to Athena. Power floods your limbs like bronze made living, and your thoughts sharpen into battle-sure clarity. Yet Hera's pride smolders, and Aphrodite's wounded silence carries a threat all its own."
+      },
+      {
+        key: "aphrodite",
+        text: "Aphrodite promises you the love of the most beautiful woman in the world.",
+        consequence: "You place the apple in Aphrodite's hands. Hera and Athena recoil in outrage, but Aphrodite's smile is serene and certain. In that instant, desire overrules caution, and the road to Helen begins to open before you."
+      },
+      {
+        key: "zeus",
+        text: "Turn to Zeus and offer the apple back to the king of the gods.",
+        consequence: "Zeus throws back his head and laughs, amused by your attempt to escape the judgment. But Hera, Athena, and Aphrodite fix you with such blazing fury that even the thunder seems to retreat. A command rolls through the air: choose again, mortal."
+      },
+      {
+        key: "self",
+        text: "Keep the apple for yourself and declare that no one is fairer than you.",
+        consequence: "For one reckless heartbeat, silence rules heaven and earth. Then the three goddesses look upon you not with anger alone, but with contempt. To mock divine vanity before Olympus is to invite ruin."
+      }
+    ]
+  };
+
+  const BRANCHES = {
+    hera: [
+      {
+        scenario: "Hera's favor settles over you like a crown. Power gathers around your name, and whispers spread that your bloodline is now marked for kingship. Now that authority rests in your hands, what do you do first?",
+        choices: [
+          {
+            action: "heraFamilyPalace",
+            text: "Use your influence to bring your kin into the palace and bind the royal house tightly around you.",
+            consequence: "You gather brothers, cousins, spouses, and loyal blood into the heart of Troy, turning the palace into a fortress of family as much as stone."
+          },
+          {
+            action: "heraWarRoute",
+            text: "Focus first on rebuilding Troy—its walls, harbors, roads, and granaries—before ambition outruns stability.",
+            consequence: "You turn away from spectacle and begin strengthening the city itself, knowing that a throne means little if Troy is weak."
+          },
+          {
+            action: "heraFamilyHeirs",
+            text: "Build a great household with many heirs, determined to make your name endure for generations.",
+            consequence: "You look beyond your own lifetime and shape your rule around legacy, marriage, children, and the future of your line."
+          },
+          {
+            action: "heraStatueRoute",
+            text: "Raise a grand statue of yourself in devotion to Hera so all may see which goddess has blessed your reign.",
+            consequence: "The monument rises high above the city, and all Troy learns that Hera's favor rests openly on your house."
+          },
+          {
+            action: "heraJusticeRoute",
+            text: "Rule first as a judge and king, proving that your house deserves power through justice rather than fear.",
+            consequence: "You decide that blood alone is not enough. If Hera has truly marked your line for rule, then you must first prove yourself worthy of the crown in the eyes of Troy."
+          }
+        ]
+      },
+      {
+        scenario: "As your family grows larger and stronger, nations learn your name, and the struggle for future power begins to stir within your own household. How do you shape the next generation of Troy's royal house?",
+        choices: [
+          {
+            action: "heraFamilyUnited",
+            text: "Teach each child that Troy and kingship matter more than private ambition, and unite the household through shared duty.",
+            consequence: "You raise your children to see the crown not as a prize, but as a burden carried for Troy."
+          },
+          {
+            action: "heraFamilyFavoritism",
+            text: "Favor one child openly and begin shaping the future around that chosen heir alone.",
+            consequence: "Your chosen child rises quickly, but the others begin to measure your love in unequal portions."
+          },
+          {
+            action: "heraFamilyPowerFight",
+            text: "Encourage rivalry between your heirs so struggle itself reveals the strongest successor.",
+            consequence: "Competition takes root in the nursery, the court, and the training yard alike."
+          },
+          {
+            action: "heraFamilyCompetition",
+            text: "Hold a fair and public competition so each child may prove worthy before the house and the city.",
+            consequence: "You place succession in the open, hoping fairness will prevent the poison of secret resentment."
+          },
+          {
+            action: "heraFamilyNoHeir",
+            text: "Refuse to name any heir yet, believing the question can wait until a more peaceful time.",
+            consequence: "The answer is delayed, but uncertainty is already becoming part of the household."
+          }
+        ]
+      },
+      {
+        scenario: "Your household has become the center of Troy's future, but that future now feels fragile. Rivalries deepen, loyalties are tested, and every gesture of love begins to carry political meaning. What do you do next?",
+        choices: [
+          {
+            action: "heraFamilyUnited",
+            text: "Reinforce the lesson that every child serves Troy first, and that no branch of the family stands above the city.",
+            consequence: "You continue shaping the household into a disciplined and loyal royal house."
+          },
+          {
+            action: "heraFamilyFavoritism",
+            text: "Push your favored child even further ahead and silence challenges before they can grow.",
+            consequence: "Your court grows orderly on the surface, but a wounded bitterness spreads beneath it."
+          },
+          {
+            action: "heraFamilyPowerFight",
+            text: "Let your heirs test one another again, believing conflict will harden them for rule.",
+            consequence: "You feed the struggle a second time, and what once seemed like ambition begins turning into hatred."
+          },
+          {
+            action: "heraFamilyCompetitionFinal",
+            text: "Hold another fair contest with clear laws, trusting justice to preserve both merit and peace.",
+            consequence: "You make succession a matter of public honor rather than private scheming, and the worthiest child stands clearly above the rest."
+          },
+          {
+            action: "heraFamilyNoHeir",
+            text: "Continue postponing the decision and pray the house remains patient.",
+            consequence: "You gain time, but every passing season makes the question more dangerous."
+          }
+        ]
+      },
+      {
+        scenario: "War now closes around Troy, and your bloodline must face the final test. In the city's last hour, what kind of father and king are you?",
+        choices: [
+          {
+            action: "heraFamilyUnited",
+            text: "Stand with your household, keeping the family united as you fight to shield heirs and civilians.",
+            consequence: "Your children stand together around you, and the royal house becomes a final wall between Troy and chaos."
+          },
+          {
+            action: "heraFamilyCompetition",
+            text: "Choose the child who proved worthy in fair contest, then die protecting the heir who will carry your bloodline onward.",
+            consequence: "At last succession is clear, and your final act is not to keep the crown, but to preserve the future beyond your own life."
+          },
+          {
+            action: "heraFamilyFavoritism",
+            text: "Entrust everything to your favorite child and cast the rest of the family aside.",
+            consequence: "You place all hope into the child you loved most, while those left behind remember every wound."
+          },
+          {
+            action: "heraFamilyPowerFight",
+            text: "Try to command a divided household in the middle of war, even after teaching it to struggle for power.",
+            consequence: "The house obeys too late, if at all, and every old rivalry now returns sharpened by fear."
+          },
+          {
+            action: "heraFamilyNoHeir",
+            text: "Refuse to name a successor even now, believing the crown must remain undivided until you die.",
+            consequence: "The throne stays whole in your hands, but the house around it begins to splinter."
+          }
+        ]
+      }
+    ],
+
+    athena: [
+      {
+        scenario: "Athena lays her hand upon you, and immense strength like living bronze floods your limbs. Before long every kingdom knows your name; songs rise of Paris of Troy, greatest warrior of his age, and even kings speak warily of you. But Aphrodite, stung by resentment, strikes where no shield can guard you: she turns your heart toward Helen, who does not love you. What do you do with this desire?",
+        choices: [
+          { text: "Accept it as one final contest to be won, as all others were won.", consequence: "Helen becomes in your mind not merely a woman, but the last victory needed to complete your legend." },
+          { text: "Resist it, fearing Aphrodite has made your heart a trap.", consequence: "You fight desire as you would an enemy line, but longing sent by a goddess does not break cleanly." },
+          { text: "Ask Athena whether strength can master love as it masters war.", consequence: "Athena gives no easy answer. Not every battlefield yields to iron." },
+          { text: "Boast that you will win Helen and become king besides.", consequence: "Your vow spreads far beyond Troy until both mortals and gods listen with sharpened attention." },
+          { text: "Seek Helen at once, convinced destiny owes you this last triumph.", consequence: "You move quickly, as conquerors do, and haste begins to pull fate tight around you." }
+        ]
+      },
+      {
+        scenario: "You reach the edge of Sparta's world. Helen does not love you, yet your fame, your will, and Aphrodite's spite keep drawing you onward. What kind of man do you become in pursuit of her?",
+        choices: [
+          { text: "Challenge every rival in deed and reputation, believing greatness itself will win her.", consequence: "Your name only grows more terrible, while Helen's distance remains unchanged." },
+          { text: "Court her with dignity, hoping honor may achieve what force cannot.", consequence: "For a time, you try to turn conquest into devotion, though the answer in her eyes stays guarded." },
+          { text: "Treat Helen as the last victory Athena's favor has placed within your reach.", consequence: "Glory and possession begin to look dangerously alike in your mind." },
+          { text: "Tell yourself that once you are king, love will follow power.", consequence: "Ambition and desire knot together until neither can be separated cleanly." },
+          { text: "Try to turn back before this destroys you.", consequence: "At last fear enters you, but fear comes late to men raised by victory." }
+        ]
+      },
+      {
+        scenario: "The gods tighten the snare. Helen remains beyond your grasp, Troy trembles beneath the rumors your pursuit has stirred, and your next act may decide what kind of legend you become.",
+        choices: [
+          {
+            action: "athenaHelenRoom",
+            text: "Go when Helen unexpectedly invites you to her chamber.",
+            consequence: "At last it seems your fame has pierced the last barrier. Yet a closed door in a threatened kingdom may hide more than desire."
+          },
+          {
+            action: "athenaRunAway",
+            text: "Flee the whole affair—Helen, Sparta, the gods, and the throne alike.",
+            consequence: "You choose escape over the contest, forgetting too late whose gifts made you more than mortal."
+          },
+          { text: "Claim Helen openly and dare Greece to answer.", consequence: "You cast caution aside entirely, and your challenge begins to ripple across the kingdoms." },
+          { text: "Seek the throne first, believing kingship will make Helen inevitable.", consequence: "You reach for rule and love at once, and the world prepares to punish such hunger." },
+          { text: "Try to hold war back while still keeping Helen within your fate.", consequence: "You dream of measuring catastrophe after it has already been born." }
+        ]
+      },
+      {
+        scenario: "Hera has united the nations in resentment, Aphrodite's spite has done its work, and Troy now stands beneath gathering doom. Yet one choice remains to you before the city falls. How will you meet the end?",
+        choices: [
+          { text: "Stand before the walls and die as Troy's last and greatest defender.", consequence: "You choose honor above survival, and the city's final songs gather around your name." },
+          { text: "Pray at last for wisdom enough to understand what all this strength was for.", consequence: "At the edge of destruction, you seek meaning rather than victory." },
+          { text: "Fight only for Helen now, even if Troy burns around you.", consequence: "Love and ruin become inseparable, and the city falls in the shadow of both." },
+          { text: "Pursue kingship to the bitter end, refusing to let doom strip you of ambition.", consequence: "Even with the walls shaking, you still reach upward, though the sky itself rejects the grasp." },
+          { text: "Accept that your legend and Troy's death will become one story forever.", consequence: "In that grim acceptance, you become worthy of memory at the very moment memory turns tragic." }
+        ]
+      }
+    ],
+
+    aphrodite: [
+      {
+        scenario: "Aphrodite draws near and speaks Helen's name at last—the most beautiful woman in the world, already wedded to Menelaus of Sparta. The promise is yours, if you dare accept what it means. How do you answer?",
+        choices: [
+          {
+            action: "confirmDoubt",
+            text: "Doubt Aphrodite. Ask whether a wedded woman can truly be the fairest of all.",
+            consequence: "The smile leaves Aphrodite's face at once. Above you, Zeus stirs in anger, for nothing escapes the king of the gods, and your doubt insults both divine knowledge and Aphrodite's judgment."
+          },
+          {
+            action: "toSparta",
+            text: "Tell Aphrodite you do not care that Helen is wedded.",
+            consequence: "Aphrodite's eyes gleam with dangerous approval. Whatever vows bind Helen to Sparta, desire now outruns honor, and the road before you points toward Menelaus's halls."
+          },
+          {
+            action: "toSparta",
+            text: "Ask whether Helen would come willingly, if the goddess truly favored you.",
+            consequence: "Aphrodite does not answer with words alone; the certainty in her expression is more troubling than comfort. Whether by longing, persuasion, or fate, Sparta now waits before you."
+          },
+          {
+            action: "toSparta",
+            text: "Say that no prize given by a goddess could possibly come without blood.",
+            consequence: "Aphrodite laughs softly, neither denying the danger nor lessening it. Yet even with dread settling in your heart, you do not refuse her path."
+          },
+          {
+            action: "toSparta",
+            text: "Accept in silence, though the name of Menelaus weighs on you.",
+            consequence: "You say little, but your silence is consent enough. The promise has been sealed, and every unspoken fear follows you toward Sparta."
+          }
+        ]
+      },
+      {
+        scenario: "You stand in Sparta, beneath another king's roof, and Helen's beauty is exactly as promised. What do you do when feeling becomes action?",
+        choices: [
+          { text: "Speak gently with Helen and trust Aphrodite to guide the rest.", consequence: "The goddess's power works through glances, words, and dangerous sympathy." },
+          { text: "Reveal your passion immediately, even at risk of scandal.", consequence: "Your honesty is reckless, and therefore all the more difficult to refuse." },
+          { text: "Struggle against the desire and remind yourself she is Menelaus's wife.", consequence: "Conscience still speaks within you, though Aphrodite's gift makes it tremble." },
+          { text: "Ask Helen whether she would choose Troy if the gods were silent.", consequence: "Her answer is uncertain, and that uncertainty wounds you more than refusal." },
+          { text: "Take what Aphrodite promised and let the consequences follow later.", consequence: "You choose passion without measure, and fate takes careful note." }
+        ]
+      },
+      {
+        scenario: "Whispers spread, Menelaus is dishonored, and the first shadows of war lengthen. When Helen is ready to leave, what kind of man are you?",
+        choices: [
+          { text: "Bring her to Troy at once, trusting Aphrodite against all enemies.", consequence: "Love becomes defiance, and the sea itself feels like a threshold to war." },
+          { text: "Beg Helen to stay behind, hoping to spare her and Troy alike.", consequence: "For a moment you try to undo the very gift you once desired." },
+          { text: "Send word to Troy first and ask whether your father will receive her.", consequence: "Duty tries to catch up with desire, though too late to keep everything clean." },
+          {
+            action: "aphroditeReturnHelen",
+            text: "Offer to return Helen if peace can still be saved.",
+            consequence: "Repentance comes at last, but it comes after oaths have been broken, kings have been enraged, and war has already begun to move."
+          },
+          {
+            action: "aphroditeBlame",
+            text: "Blame Aphrodite for what has happened and deny responsibility.",
+            consequence: "In terror and shame, you cast the guilt upward and accuse the goddess whose favor first drew Helen to you. Such words are more than cowardice now—they are blasphemy."
+          }
+        ]
+      },
+      {
+        scenario: "Greek ships gather. Hera and Athena now stand against Troy, while Aphrodite shields what she can. As war becomes unavoidable and the city nears its last hour, what do you cling to most?",
+        choices: [
+          { text: "Helen, whatever the cost, nothing matters as long as you have Helen.", consequence: "Love becomes your law, and you refuse all other claims beside the one your heart has chosen." },
+          { text: "Honor—face what you have done and die defending the city you helped doom.", consequence: "At last you stop hiding behind the gods and choose to bear the weight yourself." },
+          { text: "Believe Aphrodite will save all things in the end.", consequence: "You trust beauty against fire, even when the smoke already fills Troy's sky." },
+          { text: "Try to save only yourself from the ruin that follows.", consequence: "Fear narrows the world into a smaller, meaner shape, and the gods take notice." },
+          { text: "Pray that love may still mean something, even if it cannot save the city.", consequence: "You seek tenderness in the last hours, knowing the walls will not stand." }
+        ]
+      }
+    ]
+  };
+
+  const ENDINGS = {
+    special: {
+      selfPunished: {
+        title: "The Mockery of Olympus",
+        text: "You raise the apple for yourself, and the insult lands like sacrilege. Hera's wrath strips you of station, Athena curses your judgment, and Aphrodite ensures that your name is remembered not for beauty, but for foolishness. Before Troy can even hear of your choice, divine punishment falls, and your story ends in humiliation and ruin.",
+        bad: true
+      }
+    },
+
+    hera: {
+      heraUnitedHouse: {
+        title: "The House That Stood",
+        text: "You taught your children that Troy and kingship mattered more than private ambition. So when war closed around the city, your household did not fracture into jealous branches. They stood together beside you, shielding heirs and civilians in Troy's final hour. The city fell, but your bloodline faced that doom as one house, and in that unity your kingship found its worth.",
+        good: true
+      },
+      heraCompetitionVictory: {
+        title: "The Worthy Heir",
+        text: "You made succession a matter of law, merit, and public honor rather than secret favoritism. When the end came, the child who had proved worthy stood ready to carry your bloodline forward. You died defending that heir with your own body, and though Troy burned behind you, your house endured beyond your death through the future you had chosen from justice.",
+        good: true
+      },
+      heraThroneDeath: {
+        title: "The Last Defenders of Troy",
+        text: "You held a second fair contest and placed the crown in the hands of the child who had truly earned it. When Troy's final hour came, you did not cling to the throne out of pride. Instead, you stood beside your heir, and together you fought through the city's last defense, buying precious time for citizens to flee by ship before the walls were lost. Troy fell, but not before your house carved its honor into the city's final time.",
+        good: true
+      },
+      heraAssassinated: {
+        title: "The Favorite Child",
+        text: "You poured too much love, rank, and power into one heir, and the rest of your household learned to fear the future you were building. Resentment turned inward, then murderous. Before Troy's enemies could finish you, the family you had raised struck first, and you died by the hands of those you most wished to protect.",
+        bad: true
+      },
+      heraNoHeir: {
+        title: "No Hand on the Crown",
+        text: "You refused to name an heir, hoping the question could wait until after danger had passed. But war does not wait, and neither does ambition. As Troy's walls shaken, the royal house holds an empty future. The city fell not only to its enemies, but to the failure of its king to keep the house together.",
+        bad: true
+      },
+      heraBlindFaith: {
+        title: "The Altars of Ash",
+        text: "You spent Troy's years of funds on statues, rituals, and prayers, trusting Hera's favour to protect above all. The temples rose gloriously, but the city beneath fell to ash. Temples could not save your people, and Troy burned in the shadow of the offerings you had built.",
+        bad: true
+      },
+      heraRevolt: {
+        title: "The Revolt Within",
+        text: "You ruled through terror, public cruelty, and suspicion, thinking fear would keep Troy whole. Instead it murders the city from within. When the war reached its darkest hour, your own people rose against you, and revolution broke open inside the very walls you meant to protect. Troy fell to both enemy, and the tyrant who will not be missed.",
+        bad: true
+      },
+      heraJustKing: {
+        title: "The King the People Chose",
+        text: "When law and blood came into conflict, you sided with justice. Troy saw that your crown was not merely inherited, but earned. When war closed in, the people stood with you willingly. You fell with Troy in the end, but as a king remembered for fairness rather than fear.",
+        good: true
+      },
+      heraHonorDeath: {
+        title: "The King on the Front Line",
+        text: "When the final hour came, you did not hide behind walls or servants. You took the field yourself and fought as a warrior for Troy, standing between your people. You died with honor, in full view of the city you swore to protect.",
+        good: true
+      },
+      heraBloodlineSaved: {
+        title: "The Last Command",
+        text: "You stayed in Troy to direct its final defenses, stripping the royal house of luxury so the city might survive a little longer. At the very end, you sent your heir away from the flames, preserving your bloodline even as you remained behind. Troy fell, and you fell with it, but your house endured because in the last hour you chose legacy over your own life.",
+        good: true
+      },
+      heraCowardFlight: {
+        title: "The King Who Fled",
+        text: "When doom at last became undeniable, you chose the road out of Troy instead of the road of duty. But news of your flight spread faster than your horses. Officials and guards, knowing you had abandoned the city, overtook you before dawn and killed you on the road. You died not as a king, but as a fugitive from your own crown.",
+        bad: true
+      },
+      heraSlaveKing: {
+        title: "The Crown of Shame",
+        text: "To keep your throne a little longer, you offered up Troy's women and condemned your own innocent people to slavery. For one brief moment you still had a crown—but it rested upon betrayal so complete that even kingship itself became filth. Whether by revolt, divine judgment, or the hatred of history, your name survived only in disgrace.",
+        bad: true
+      }
+    },
+
+    athena: {
+      athenaPoisoned: {
+        title: "The Cup in Helen's Chamber",
+        text: "At last Helen invited you to her room, and for one brief instant it seemed every battle, every boast, and every wound had brought you to victory. But Helen loved her people more than she ever loved you. The wine she gave you carried poison, and you died not on the field, but in silence—undone not by weakness, but by the heart you could never truly conquer.",
+        bad: true
+      },
+      athenaCoward: {
+        title: "The Gift You Betrayed",
+        text: "Athena gave you victory, strength, and the promise that no mortal foe would master you. Yet when desire and consequence closed in, you chose flight instead of resolve. To abandon the contest after receiving her gifts was not caution in the goddess's eyes, but betrayal. Her punishment fell swiftly, and the greatness once promised to you was extinguished in disgrace.",
+        bad: true
+      },
+      athenaHonor: {
+        title: "The Last Defender of Troy",
+        text: "Athena made you immense in strength and peerless in war, and in the final assault you became exactly what her promise had foretold: the greatest warrior of your age. You held the line while Troy burned behind you, buying precious moments for others to escape the city's doom. Troy still fell, and you fell with it, but no shame clung to your name. You died with honor, and the songs that survived the ashes remembered you.",
+        good: true
+      },
+      athenaFulfillment: {
+        title: "The Meaning of Strength",
+        text: "At the edge of ruin, you finally understood Athena's harsh gift. Strength was never meant to spare you loss, only to make you worthy of it. When Troy's end came, you met it not with rage or denial, but with clear sight and unbroken courage. The city was destroyed, as fate had long decreed, but you died fulfilled—having become the man of greatness, wisdom, and resolve that Athena had promised.",
+        good: true
+      },
+      athenaDefault: {
+        title: "The Warrior Who Brought Down Troy",
+        text: "Athena made you immense in strength and terrible in war, and for a time the world seemed to belong to Paris of Troy. Yet Aphrodite's resentment turned your greatness toward Helen, and Hera gathered kingdoms against the city that had raised you. Whether through pride, desire, or both, you became the spark of a greater ruin. You died renowned—but Troy died with you.",
+        bad: true
+      }
+    },
+
+    aphrodite: {
+      doubtedHelen: {
+        title: "The Beauty You Denied",
+        text: "You doubted the judgment of Aphrodite and the knowledge of Zeus, and Olympus answered with fury. What began as hesitation became blasphemy in divine eyes. No road to Helen, Troy, or glory remains to you now—only the ruin that follows a mortal who challenged the certainty of the gods.",
+        bad: true
+      },
+      aphroditeTooLate: {
+        title: "Too Late for Mercy",
+        text: "At last fear overcame desire, and you tried to return Helen before the world burned completely. But the war had already been called into being, and no late gesture could unmake it. Worse still, Aphrodite saw in your retreat a rejection of the gift you had begged to receive. The armies came, the punishment followed, and you learned too late that some divine bargains cannot be returned.",
+        bad: true
+      },
+      aphroditeBlasphemy: {
+        title: "The Love She Took Back",
+        text: "In your fear, you blamed Aphrodite for the ruin around you, and in doing so committed blasphemy against the very goddess whose gift you had once begged to receive. Amid the chaos of war, she withdrew her favor at last. Helen's love turned to horror, then to hatred, and she saw in you not a beloved, but the author of her grief and Troy's destruction. In the last bitter confusion, she betrayed you and drove a blade into your body. Thus you died abandoned by love, punished by the goddess you had dared to accuse.",
+        bad: true
+      },
+      aphroditeLove: {
+        title: "The Last Night in Troy",
+        text: "You chose Helen, and in the end you chose her still. While Troy burned and the last cries of the city rose into the night, you did not flee into empty glory or beg the gods to undo what they had begun. You remained beside the love that had cost the world so much. Troy fell, as it was always fated to fall, but you died with love rather than fear, and that made the last hour strangely tender.",
+        good: true
+      },
+      aphroditeFulfillment: {
+        title: "The Weight of Your Choice",
+        text: "At last you ceased blaming gods, beauty, or fate. You accepted that the war, the grief, and the ruin of Troy all flowed through choices in which your own heart had a part. So when the city fell, you did not hide behind Aphrodite's promise. You stood and fought for the home you had helped endanger. Troy was destroyed all the same, but you died with fulfillment in the bitter knowledge that, at the last, you bore your burden honestly.",
+        good: true
+      },
+      aphroditeDefault: {
+        title: "The Face That Launched a Thousand Ships",
+        text: "By choosing Aphrodite, you stepped onto the path the old stories remember best. Helen came, Menelaus was dishonored, and the long war gathered itself against Troy. Love was granted exactly as promised—but it arrived twined with grief, and the beauty you chose became the spark of legend and catastrophe. Troy fell, and your desire was remembered as one of the flames that consumed it.",
+        bad: true
+      }
+    }
+  };
+
+  let currentStep = -1;
+  let branchKey = null;
+  let branchSteps = [];
+  let branchStepIndex = 0;
+  let lastSelectedText = "";
+
+  let heraFavoritismCount = 0;
+  let heraPowerFightCount = 0;
+
+  const content = document.getElementById("content");
+  const progress = document.getElementById("progress");
+
+  function getEnding(key) {
+    for (const group of Object.values(ENDINGS)) {
+      if (group[key]) return group[key];
+    }
+    return null;
+  }
+
+  function buildProgress() {
+    progress.innerHTML = "";
+    if (currentStep < 0) return;
+
+    for (let i = 0; i < TOTAL_STEPS; i++) {
+      const dot = document.createElement("div");
+      dot.className = "dot" + (i < currentStep ? " active" : "");
+      progress.appendChild(dot);
+    }
+  }
+
+  function renderIntro() {
+    currentStep = -1;
+    branchKey = null;
+    branchSteps = [];
+    branchStepIndex = 0;
+    lastSelectedText = "";
+    heraFavoritismCount = 0;
+    heraPowerFightCount = 0;
+
+    buildProgress();
+
+    content.innerHTML = `
+        <div class="fade">
+          <div class="step-label">Prologue</div>
+          <h1 class="intro-title">The Judgement of Paris</h1>
+          <div class="intro-story">${INTRO_TEXT.replace(/\n/g, "<br><br>")}</div>
+          <div class="button-row">
+            <button class="restart" onclick="startGame()">Begin the Judgment</button>
+          </div>
+        </div>
+      `;
+  }
+
+  function startGame() {
+    currentStep = 0;
+    branchKey = null;
+    branchSteps = [];
+    branchStepIndex = 0;
+    lastSelectedText = "";
+    heraFavoritismCount = 0;
+    heraPowerFightCount = 0;
+    renderOpeningStep();
+  }
+
+  function renderOpeningStep() {
+    buildProgress();
+
+    let html = `
+        <div class="fade">
+          <div class="step-label">Decision 1 of ${TOTAL_STEPS}</div>
+          <div class="scenario">${OPENING_STEP.scenario}</div>
+          <div class="choices">
+      `;
+
+    OPENING_STEP.choices.forEach((choice, i) => {
+      html += `<button class="choice" onclick="pickOpeningChoice(${i})">${choice.text}</button>`;
+    });
+
+    html += `</div></div>`;
+    content.innerHTML = html;
+  }
+
+  function pickOpeningChoice(index) {
+    const choice = OPENING_STEP.choices[index];
+
+    if (choice.key === "self") {
+      content.innerHTML = `
+          <div class="fade">
+            <div class="step-label">Judgment Broken</div>
+            <div class="scenario">${choice.text}</div>
+            <div class="consequence">${choice.consequence}</div>
+            <div class="button-row">
+              <button class="restart" onclick="showEnding('selfPunished')">Face the Wrath →</button>
+            </div>
+          </div>
+        `;
+      return;
+    }
+
+    if (choice.key === "zeus") {
+      content.innerHTML = `
+          <div class="fade">
+            <div class="step-label">Judgment Refused</div>
+            <div class="scenario">${choice.text}</div>
+            <div class="consequence">${choice.consequence}</div>
+            <div class="button-row">
+              <button class="restart" onclick="retryOpening()">Choose Again →</button>
+            </div>
+          </div>
+        `;
+      return;
+    }
+
+    content.innerHTML = `
+        <div class="fade">
+          <div class="step-label">Decision 1 of ${TOTAL_STEPS}</div>
+          <div class="scenario">${choice.text}</div>
+          <div class="consequence">${choice.consequence}</div>
+          <div class="button-row">
+            <button class="restart" onclick="beginBranch('${choice.key}')">Continue →</button>
+          </div>
+        </div>
+      `;
+  }
+
+  function retryOpening() {
+    currentStep = 0;
+    renderOpeningStep();
+  }
+
+  function beginBranch(key) {
+    branchKey = key;
+    branchSteps = BRANCHES[key];
+    branchStepIndex = 0;
+    currentStep = 1;
+    lastSelectedText = "";
+    renderBranchStep();
+  }
+
+  function renderBranchStep() {
+    buildProgress();
+    const step = branchSteps[branchStepIndex];
+
+    let html = `
+        <div class="fade">
+          <div class="step-label">Decision ${currentStep + 1} of ${TOTAL_STEPS}</div>
+          <div class="scenario">${step.scenario}</div>
+          <div class="choices">
+      `;
+
+    step.choices.forEach((choice, i) => {
+      html += `<button class="choice" onclick="pickBranchChoice(${i})">${choice.text}</button>`;
+    });
+
+    html += `</div></div>`;
+    content.innerHTML = html;
+  }
+
+  function showChoiceTransition(label, scenario, consequence, nextAction) {
+    content.innerHTML = `
+        <div class="fade">
+          <div class="step-label">${label}</div>
+          <div class="scenario">${scenario}</div>
+          <div class="consequence">${consequence}</div>
+          <div class="button-row">
+            <button class="restart" onclick="${nextAction}">Continue →</button>
+          </div>
+        </div>
+      `;
+  }
+
+  function pickBranchChoice(index) {
+    const step = branchSteps[branchStepIndex];
+    const choice = step.choices[index];
+    lastSelectedText = choice.text;
+
+    if (choice.action === "heraFamilyFavoritism") {
+      heraFavoritismCount++;
+      if (heraFavoritismCount >= 2) {
+        showChoiceTransition(
+          "A House Wounded",
+          choice.text,
+          "This is the second time you have raised one child above all others. Love has hardened into injustice, and the family you meant to secure now turns inward with resentment and fear.",
+          "showEnding('heraAssassinated')"
+        );
+        return;
+      }
+    }
+
+    if (choice.action === "heraFamilyPowerFight") {
+      heraPowerFightCount++;
+      if (heraPowerFightCount >= 2) {
+        showChoiceTransition(
+          "The House at War",
+          choice.text,
+          "You have fed rivalry a second time, and now ambition has become something far darker. The contest for succession slips beyond your control, and the house begins destroying itself before Troy's enemies even strike.",
+          "showEnding('heraAssassinated')"
+        );
+        return;
+      }
+    }
+
+    if (branchKey === "hera" && branchStepIndex === 2 && choice.action === "heraFamilyCompetitionFinal") {
+      showChoiceTransition(
+        "Justice Secured",
+        choice.text,
+        "By holding a second fair contest, you finally silence private scheming and make succession a matter of law. The worthiest child is named openly before the house and the city, and for the first time Troy sees a future not built on fear, but on justice.",
+        "showEnding('heraThroneDeath')"
+      );
+      return;
+    }
+
+    if (choice.action === "confirmDoubt") {
+      content.innerHTML = `
+          <div class="fade">
+            <div class="step-label">Divine Warning</div>
+            <div class="scenario">${choice.text}</div>
+            <div class="consequence">${choice.consequence}</div>
+            <div class="choices">
+              <button class="choice" onclick="resolveDoubt(true)">Yes — I still doubt Helen's beauty.</button>
+              <button class="choice" onclick="resolveDoubt(false)">No — I withdraw my doubt.</button>
+            </div>
+          </div>
+        `;
+      return;
+    }
+
+    if (choice.action === "athenaHelenRoom") {
+      showChoiceTransition("Last Invitation", choice.text, choice.consequence, "showEnding('athenaPoisoned')");
+      return;
+    }
+
+    if (choice.action === "athenaRunAway") {
+      showChoiceTransition("Flight", choice.text, choice.consequence, "showEnding('athenaCoward')");
+      return;
+    }
+
+    if (choice.action === "aphroditeBlame") {
+      showChoiceTransition("Blasphemy", choice.text, choice.consequence, "showEnding('aphroditeBlasphemy')");
+      return;
+    }
+
+    if (choice.action === "aphroditeReturnHelen") {
+      showChoiceTransition("Too Late", choice.text, choice.consequence, "showEnding('aphroditeTooLate')");
+      return;
+    }
+
+    if (choice.action === "heraFamilyPalace" || choice.action === "heraFamilyHeirs") {
+      showChoiceTransition("The Royal House", choice.text, choice.consequence, "advanceBranch()");
+      return;
+    }
+
+    if (choice.action === "heraJusticeRoute") {
+      showChoiceTransition("The Weight of the Crown", choice.text, choice.consequence, "showHeraWarQuestions()");
+      return;
+    }
+
+    if (choice.action === "heraStatueRoute") {
+      content.innerHTML = `
+          <div class="fade">
+            <div class="step-label">Hera's Monument</div>
+            <div class="scenario">${choice.text}</div>
+            <div class="consequence">${choice.consequence}</div>
+            <div class="choices">
+              <button class="choice" onclick="pickSpecialHeraFinance('temples')">Pour Troy's wealth into temples and offerings, trusting Hera alone to save the city.</button>
+              <button class="choice" onclick="pickSpecialHeraFinance('army')">Use the treasury to train the army and prepare for open war.</button>
+              <button class="choice" onclick="pickSpecialHeraFinance('defense')">Use the treasury for food stores, tighter defenses, and protection for civilians.</button>
+            </div>
+          </div>
+        `;
+      return;
+    }
+
+    if (choice.action === "heraWarRoute") {
+      showChoiceTransition("The City Strengthened", choice.text, choice.consequence, "showHeraWarQuestions()");
+      return;
+    }
+
+    showChoiceTransition(`Decision ${currentStep + 1} of ${TOTAL_STEPS}`, choice.text, choice.consequence, "advanceBranch()");
+  }
+
+  function resolveDoubt(stillDoubts) {
+    if (stillDoubts) {
+      showEnding("doubtedHelen");
+      return;
+    }
+
+    content.innerHTML = `
+        <div class="fade">
+          <div class="step-label">Mercy Granted</div>
+          <div class="scenario">Before Zeus and Aphrodite, you lower your head and withdraw the insult.</div>
+          <div class="consequence">The anger in the air does not vanish, but it lessens. Aphrodite accepts your submission, and the promise of Helen remains before you. Once again, the road turns toward Sparta.</div>
+          <div class="button-row">
+            <button class="restart" onclick="renderBranchStep()">Return →</button>
+          </div>
+        </div>
+      `;
+  }
+
+  function pickSpecialHeraFinance(type) {
+    if (type === "temples") {
+      showChoiceTransition(
+        "Blind Devotion",
+        "You pour Troy's remaining wealth into temples, incense, sacrifice, and prayers to Hera.",
+        "The people watch their stores empty while altars grow more splendid by the day. You ask heaven to do the work that kings and walls were meant to bear.",
+        "showEnding('heraBlindFaith')"
+      );
+      return;
+    }
+
+    showChoiceTransition(
+      "Treasury and War",
+      type === "army"
+        ? "You direct Troy's wealth into drilling soldiers, forging arms, and preparing the army for the war everyone now expects."
+        : "You tighten the defenses, secure food stores, and spend Troy's wealth on keeping the people alive through siege and fear.",
+      type === "army"
+        ? "Your rule hardens into readiness. Troy will not meet war unarmed."
+        : "You choose endurance over display, making survival itself the highest duty of kingship.",
+      "showHeraWarQuestions()"
+    );
+  }
+
+  function showHeraWarQuestions() {
+    content.innerHTML = `
+        <div class="fade">
+          <div class="step-label">Crisis in Troy</div>
+          <div class="scenario">Other kingdoms fear what Troy may become, and word reaches you that spies have entered your government while war approaches. How do you answer threats within your own walls?</div>
+          <div class="choices">
+            <button class="choice" onclick="resolveHeraWar('tyrant')">Kill any suspicious official and their family before fear can spread further.</button>
+            <button class="choice" onclick="resolveHeraWar('watch')">Order your closest adviser to keep watching quietly and draw out the hidden traitors.</button>
+            <button class="choice" onclick="resolveHeraWar('trial')">Put every powerful figure under public scrutiny and hold formal trials where needed.</button>
+            <button class="choice" onclick="resolveHeraWar('display')">Execute a captured spy before the court so all Troy knows you have no mercy.</button>
+          </div>
+        </div>
+      `;
+  }
+
+  function resolveHeraWar(type) {
+    if (type === "tyrant" || type === "display") {
+      showChoiceTransition(
+        "Fear in the Palace",
+        "You choose terror as the language of rule.",
+        "At first the court falls silent, but silence is not loyalty. By the time the Greeks close in, your own people have begun to hate the hand that rules them.",
+        "showEnding('heraRevolt')"
+      );
+      return;
+    }
+
+    showChoiceTransition(
+      "A House Under Siege",
+      "You resist panic and keep order through patience, judgment, and vigilance.",
+      "The fear inside Troy never fully fades, but neither does the people's trust. Now one more judgment stands before you, and it will decide whether you are merely powerful—or truly worthy to rule.",
+      "showHeraJusticeQuestion()"
+    );
+  }
+
+  function showHeraJusticeQuestion() {
+    content.innerHTML = `
+        <div class="fade">
+          <div class="step-label">Judgment in the House</div>
+          <div class="scenario">A grave dispute reaches your court: your cousin has wrongfully killed the daughter of an important official after she refused to marry him. The city waits to see whether blood or justice will rule Troy. Who do you side with?</div>
+          <div class="choices">
+            <button class="choice" onclick="resolveHeraJustice('cousin')">Protect your cousin and shield the royal house from scandal.</button>
+            <button class="choice" onclick="resolveHeraJustice('official')">Side with the official, punish your cousin, and prove that no one stands above the law.</button>
+          </div>
+        </div>
+      `;
+  }
+
+  function resolveHeraJustice(type) {
+    if (type === "cousin") {
+      showChoiceTransition(
+        "Blood Above Justice",
+        "You protect your cousin and place the royal house above the law.",
+        "The court learns what this means at once: if power is close enough to you, innocence no longer matters. Fear deepens into hatred, and the people begin to see not a king, but a tyrant in the making.",
+        "showEnding('heraRevolt')"
+      );
+      return;
+    }
+
+    showChoiceTransition(
+      "Justice Before Blood",
+      "You punish your cousin and side with the wronged official.",
+      "The city is stunned that you would place justice above kinship, but that shock soon turns to praise. For the first time, many believe that Hera's favor may truly have made you worthy of kingship.",
+      "showHeraFinalWarChoice()"
+    );
+  }
+
+  function showHeraFinalWarChoice() {
+    content.innerHTML = `
+        <div class="fade">
+          <div class="step-label">The Final Hour</div>
+          <div class="scenario">War approaches at last, and Troy stands on the edge of destruction. In this final hour, where do you go?</div>
+          <div class="choices">
+            <button class="choice" onclick="showEnding('heraHonorDeath')">Fight as a frontline warrior and defend your country with your own life.</button>
+            <button class="choice" onclick="showEnding('heraBloodlineSaved')">Remain within Troy, cut the royal budget, tighten the defenses, and send your heir away at the last moment to protect the bloodline.</button>
+            <button class="choice" onclick="showEnding('heraCowardFlight')">Slip away from Troy as things grow worse and try to save yourself before the walls fall.</button>
+            <button class="choice" onclick="showEnding('heraSlaveKing')">Offer up Troy's women and condemn innocent citizens to slavery if it means you may keep the crown.</button>
+            <button class="choice" onclick="showEnding('heraJustKing')">Remain in the city as a just king, keeping order among the people and refusing both panic and cruelty as Troy meets its fate.</button>
+          </div>
+        </div>
+      `;
+  }
+
+  function advanceBranch() {
+    branchStepIndex++;
+    currentStep++;
+
+    if (branchStepIndex >= branchSteps.length) {
+      resolveBranchEnding();
+    } else {
+      renderBranchStep();
+    }
+  }
+
+  function resolveBranchEnding() {
+    if (branchKey === "hera") {
+      if (lastSelectedText === "Stand with your household, keeping the family united as you fight to shield heirs and civilians.") {
+        showEnding("heraUnitedHouse");
+        return;
+      }
+
+      if (lastSelectedText === "Choose the child who proved worthy in fair contest, then die protecting the heir who will carry your bloodline onward.") {
+        showEnding("heraCompetitionVictory");
+        return;
+      }
+
+      if (lastSelectedText === "Entrust everything to your favorite child and cast the rest of the family aside.") {
+        showEnding("heraAssassinated");
+        return;
+      }
+
+      if (lastSelectedText === "Try to command a divided household in the middle of war, even after teaching it to struggle for power.") {
+        showEnding("heraAssassinated");
+        return;
+      }
+
+      if (lastSelectedText === "Refuse to name a successor even now, believing the crown must remain undivided until you die.") {
+        showEnding("heraNoHeir");
+        return;
+      }
+
+      showEnding("heraUnitedHouse");
+      return;
+    }
+
+    if (branchKey === "athena") {
+      if (
+        lastSelectedText === "Stand before the walls and die as Troy's last and greatest defender." ||
+        lastSelectedText === "Accept that your legend and Troy's death will become one story forever."
+      ) {
+        showEnding("athenaHonor");
+        return;
+      }
+
+      if (lastSelectedText === "Pray at last for wisdom enough to understand what all this strength was for.") {
+        showEnding("athenaFulfillment");
+        return;
+      }
+
+      showEnding("athenaDefault");
+      return;
+    }
+
+    if (branchKey === "aphrodite") {
+      if (
+        lastSelectedText === "Helen, whatever the cost, nothing matters as long as you have Helen." ||
+        lastSelectedText === "Pray that love may still mean something, even if it cannot save the city."
+      ) {
+        showEnding("aphroditeLove");
+        return;
+      }
+
+      if (lastSelectedText === "Honor—face what you have done and die defending the city you helped doom.") {
+        showEnding("aphroditeFulfillment");
+        return;
+      }
+
+      showEnding("aphroditeDefault");
+    }
+  }
+
+  function showEnding(key) {
+    buildProgress();
+    const ending = getEnding(key);
+
+    if (!ending) {
+      content.innerHTML = `
+          <div class="fade">
+            <div class="step-label">Error</div>
+            <div class="scenario">Ending not found: ${key}</div>
+            <div class="button-row">
+              <button class="restart" onclick="renderIntro()">Restart</button>
+            </div>
+          </div>
+        `;
+      return;
+    }
+
+    let stateClass = "";
+    if (ending.bad === true) stateClass = " bad-ending";
+    if (ending.good === true) stateClass = " good-ending";
+
+    content.innerHTML = `
+        <div class="ending${stateClass} fade">
+          <div class="step-label">Fate Decided</div>
+          <h1>${ending.title}</h1>
+          <p>${ending.text}</p>
+          <button class="restart" onclick="renderIntro()">Play Again</button>
+        </div>
+      `;
+  }
+
+  renderIntro();
+</script>
+</body>
+</html>
