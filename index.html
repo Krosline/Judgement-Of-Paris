@@ -306,7 +306,19 @@
       color: #fff4f4;
       box-shadow: 0 0 18px rgba(180, 20, 20, 0.22);
     }
-
+    #ending-counter {
+      position: fixed;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(10, 10, 20, 0.75);
+      color: #f3e7c2;
+      font-size: 0.95rem;
+      letter-spacing: 0.03em;
+      z-index: 9999;
+    }
     .ending.good-ending {
       position: relative;
       overflow: hidden;
@@ -484,32 +496,32 @@ Judgement awaits, as the fate of Troy unfolds in hands of the Prince.
 Choose, Paris, if you dare.`;
 
   const OPENING_STEP = {
-    scenario: "Who receives the Apple of Discord?",
+    scenario: "Which promise stirs your deepest desire?",
     choices: [
       {
         key: "hera",
         text: "Hera, queen of heaven, offers a crown and power to bring kingdoms to their knees.",
-        consequence: "You place the apple in Hera's hands. A smile of triumph touches her lips, and her promise settles over you like a crown. In that moment, power no longer feels distant: it feels inherited, intimate, and bound to the future of your bloodline."
+        consequence: "You place the apple in Hera's hands. With a smile of triumph, her promise settles over you like the smell of power. In that moment, power no longer feels distant: it feels inherited, intimate, and bound to the future of your bloodline."
       },
       {
         key: "athena",
         text: "Athena offers wisdom, flawless strategy, unyielding strength, and a warrior’s immortal name.",
-        consequence: "You give the apple to Athena. Power floods your limbs like bronze made living, and your thoughts sharpen into battle-sure clarity. Yet Hera's pride smolders, and Aphrodite's wounded silence carries a threat all its own."
+        consequence: "You give the apple to Athena. Power floods your limbs, and your wisdom flows in your brain. Yet Hera's pride shattered, and Aphrodite's wounded silence carries a threat you don't dare to speak upon."
       },
       {
         key: "aphrodite",
         text: "Aphrodite promises you the love of the most beautiful woman in the world.",
-        consequence: "You place the apple in Aphrodite's hands. Hera and Athena recoil in outrage, but Aphrodite's smile is serene and certain. In that instant, desire overrules caution, and the road to Helen begins to open before you."
+        consequence: "You place the apple in Aphrodite's hands. Hera and Athena eyes turn red in anger, but Aphrodite's smile is serene and certain. In that instant, desire overrules caution, and the road to Helen begins to open before you."
       },
       {
         key: "zeus",
         text: "Turn to Zeus and offer the apple back to the king of the gods.",
-        consequence: "Zeus throws back his head and laughs, amused by your attempt to escape the judgment. But Hera, Athena, and Aphrodite fix you with such blazing fury that even the thunder seems to retreat. A command rolls through the air: choose again, mortal."
+        consequence: "Zeus throws back his head and laughs, amused by your attempt to escape the judgment. But Hera, Athena, and Aphrodite fix you with such blazing fury that even the thunder seems to retreat as he commanded once again: choose again, mortal."
       },
       {
         key: "self",
         text: "Keep the apple for yourself and declare that no one is fairer than you.",
-        consequence: "For one reckless heartbeat, silence rules heaven and earth. Then the three goddesses look upon you not with anger alone, but with contempt. To mock divine vanity before Olympus is to invite ruin."
+        consequence: "For one reckless heartbeat, silence roars louder than the wind. Then the three goddesses look upon you not with anger alone, but with contempt. To mock divine vanity before Olympus is to invite ruin."
       }
     ]
   };
@@ -526,7 +538,7 @@ Choose, Paris, if you dare.`;
           },
           {
             action: "heraWarRoute",
-            text: "Focus first on rebuilding Troy—its walls, harbors, roads, and granaries—before ambition outruns stability.",
+            text: "Focus first on rebuilding Troy: its walls, harbors, roads, and granaries—before ambition outruns stability.",
             consequence: "You turn away from spectacle and begin strengthening the city itself, knowing that a throne means little if Troy is weak."
           },
           {
@@ -547,7 +559,7 @@ Choose, Paris, if you dare.`;
         ]
       },
       {
-        scenario: "As your family grows larger and stronger, nations learn your name, and the struggle for future power begins to stir within your own household. How do you shape the next generation of Troy's royal house?",
+        scenario: "As your family grows larger and stronger, the struggle for power begins to stir within your own household. How do you shape the next generation of your own family?",
         choices: [
           {
             action: "heraFamilyUnited",
@@ -556,7 +568,7 @@ Choose, Paris, if you dare.`;
           },
           {
             action: "heraFamilyFavoritism",
-            text: "Favor one child openly and begin shaping the future around that chosen heir alone.",
+            text: "Select your favorite child and name him heir, believe in training the future king is more important than wasting time on incapable children.",
             consequence: "Your chosen child rises quickly, but the others begin to measure your love in unequal portions."
           },
           {
@@ -566,12 +578,12 @@ Choose, Paris, if you dare.`;
           },
           {
             action: "heraFamilyCompetition",
-            text: "Hold a fair and public competition so each child may prove worthy before the house and the city.",
+            text: "Hold a fair and public competition so each child may prove their worthy to the family and country.",
             consequence: "You place succession in the open, hoping fairness will prevent the poison of secret resentment."
           },
           {
             action: "heraFamilyNoHeir",
-            text: "Refuse to name any heir yet, believing the question can wait until a more peaceful time.",
+            text: "Refuse to name any heir yet, afraid the heir might try to overtake you.",
             consequence: "The answer is delayed, but uncertainty is already becoming part of the household."
           }
         ]
@@ -581,27 +593,27 @@ Choose, Paris, if you dare.`;
         choices: [
           {
             action: "heraFamilyUnited",
-            text: "Reinforce the lesson that every child serves Troy first, and that no branch of the family stands above the city.",
+            text: "Reinforce the lesson that every child serves Troy first, and that the duty to protect the city is on the family.",
             consequence: "You continue shaping the household into a disciplined and loyal royal house."
           },
           {
             action: "heraFamilyFavoritism",
-            text: "Push your favored child even further ahead and silence challenges before they can grow.",
+            text: "Shape your heir even further into the perfect heir, entrusting the future of Troy to the most capable man.",
             consequence: "Your court grows orderly on the surface, but a wounded bitterness spreads beneath it."
           },
           {
             action: "heraFamilyPowerFight",
-            text: "Let your heirs test one another again, believing conflict will harden them for rule.",
+            text: "Quietly observe as your children fight for throne, even if blood sheds, this is the survival of the fittest.",
             consequence: "You feed the struggle a second time, and what once seemed like ambition begins turning into hatred."
           },
           {
             action: "heraFamilyCompetitionFinal",
-            text: "Hold another fair contest with clear laws, trusting justice to preserve both merit and peace.",
+            text: "Hold another fair contest, offering the heir to the smartest, strongest, and most capable child. Citizens are invited to watch.",
             consequence: "You make succession a matter of public honor rather than private scheming, and the worthiest child stands clearly above the rest."
           },
           {
             action: "heraFamilyNoHeir",
-            text: "Continue postponing the decision and pray the house remains patient.",
+            text: "Surrounded by fear of your children overthrowing you or turn on one another, you delay naming a heir yet again.",
             consequence: "You gain time, but every passing season makes the question more dangerous."
           }
         ]
@@ -616,12 +628,12 @@ Choose, Paris, if you dare.`;
           },
           {
             action: "heraFamilyCompetition",
-            text: "Choose the child who proved worthy in fair contest, then die protecting the heir who will carry your bloodline onward.",
+            text: "Select the child who earned the crown in fair contest, and protecting him to your final moment.",
             consequence: "At last succession is clear, and your final act is not to keep the crown, but to preserve the future beyond your own life."
           },
           {
             action: "heraFamilyFavoritism",
-            text: "Entrust everything to your favorite child and cast the rest of the family aside.",
+            text: "Entrust everything to your favorite child, even if that cost citizens' lives and your own kin - one capable child is all you need.",
             consequence: "You place all hope into the child you loved most, while those left behind remember every wound."
           },
           {
@@ -631,7 +643,7 @@ Choose, Paris, if you dare.`;
           },
           {
             action: "heraFamilyNoHeir",
-            text: "Refuse to name a successor even now, believing the crown must remain undivided until you die.",
+            text: "Refuse to name any heir yet again, believing that choosing in the midst of chaos would only make the ruin worse.",
             consequence: "The throne stays whole in your hands, but the house around it begins to splinter."
           }
         ]
@@ -640,122 +652,145 @@ Choose, Paris, if you dare.`;
 
     athena: [
       {
-        scenario: "Athena lays her hand upon you, and immense strength like living bronze floods your limbs. Before long every kingdom knows your name; songs rise of Paris of Troy, greatest warrior of his age, and even kings speak warily of you. But Aphrodite, stung by resentment, strikes where no shield can guard you: she turns your heart toward Helen, who does not love you. What do you do with this desire?",
+        scenario: "Athena lays her hand upon you, and immense strength like living bronze floods your limbs. Before long every kingdom knows your name; songs rise of Paris of Troy, greatest warrior of his age. But Aphrodite, full of resentment, strikes where no shield can guard you: she turns your heart toward Helen, who does not love you. What do you do with this desire?",
         choices: [
           { text: "Accept it as one final contest to be won, as all others were won.", consequence: "Helen becomes in your mind not merely a woman, but the last victory needed to complete your legend." },
           { text: "Resist it, fearing Aphrodite has made your heart a trap.", consequence: "You fight desire as you would an enemy line, but longing sent by a goddess does not break cleanly." },
           { text: "Ask Athena whether strength can master love as it masters war.", consequence: "Athena gives no easy answer. Not every battlefield yields to iron." },
-          { text: "Boast that you will win Helen and become king besides.", consequence: "Your vow spreads far beyond Troy until both mortals and gods listen with sharpened attention." },
-          { text: "Seek Helen at once, convinced destiny owes you this last triumph.", consequence: "You move quickly, as conquerors do, and haste begins to pull fate tight around you." }
+          { text: "Spread the words that you will win Helen and become king besides.", consequence: "Your vow spreads far beyond Troy until both mortals and gods listen with sharpened attention." },
+          { text: "Seek Helen at once, convinced even love must succumb to your triumph.", consequence: "You move quickly, as conquerors do, and haste begins to pull fate tight around you." }
         ]
       },
       {
-        scenario: "You reach the edge of Sparta's world. Helen does not love you, yet your fame, your will, and Aphrodite's spite keep drawing you onward. What kind of man do you become in pursuit of her?",
+        scenario: "You reach the border of Sparta with your heart empty. Unable to get her image out of your head despite all battles won, what kind of man do you become in pursuit of her?",
         choices: [
           { text: "Challenge every rival in deed and reputation, believing greatness itself will win her.", consequence: "Your name only grows more terrible, while Helen's distance remains unchanged." },
           { text: "Court her with dignity, hoping honor may achieve what force cannot.", consequence: "For a time, you try to turn conquest into devotion, though the answer in her eyes stays guarded." },
-          { text: "Treat Helen as the last victory Athena's favor has placed within your reach.", consequence: "Glory and possession begin to look dangerously alike in your mind." },
-          { text: "Tell yourself that once you are king, love will follow power.", consequence: "Ambition and desire knot together until neither can be separated cleanly." },
+          { text: "Treat Helen as the last trophy, waiting for your acquisition.", consequence: "Glory and possession begin to look dangerously alike in your mind." },
+          { text: "Tell yourself that once you are king, even love can not run away from you.", consequence: "Ambition and desire knot together until neither can be separated cleanly." },
           { text: "Try to turn back before this destroys you.", consequence: "At last fear enters you, but fear comes late to men raised by victory." }
         ]
       },
       {
-        scenario: "The gods tighten the snare. Helen remains beyond your grasp, Troy trembles beneath the rumors your pursuit has stirred, and your next act may decide what kind of legend you become.",
+        scenario: "The gods watch and mock as you chase the gift of a goddess you never chose. Helen stays beyond your reach, Troy trembles as you risk all for her. Athena warns you to use your earned-wisdom wisely. ",
         choices: [
           {
             action: "athenaHelenRoom",
-            text: "Go when Helen unexpectedly invites you to her chamber.",
+            text: "As Helen unexpectedly invites you to her chamber, you grasped the chance that might never come again.",
             consequence: "At last it seems your fame has pierced the last barrier. Yet a closed door in a threatened kingdom may hide more than desire."
           },
           {
             action: "athenaRunAway",
-            text: "Flee the whole affair—Helen, Sparta, the gods, and the throne alike.",
+            text: "Afraid of the consequences, you flee away from Helen, Sparta, Athena, and the throne alike.",
             consequence: "You choose escape over the contest, forgetting too late whose gifts made you more than mortal."
           },
-          { text: "Claim Helen openly and dare Greece to answer.", consequence: "You cast caution aside entirely, and your challenge begins to ripple across the kingdoms." },
-          { text: "Seek the throne first, believing kingship will make Helen inevitable.", consequence: "You reach for rule and love at once, and the world prepares to punish such hunger." },
-          { text: "Try to hold war back while still keeping Helen within your fate.", consequence: "You dream of measuring catastrophe after it has already been born." }
+          {
+            text: "Confident that you are stronger than mortals, you claim Helen openly and dare Greece to answer.",
+            consequence: "You cast caution aside entirely, and your challenge begins to ripple across the kingdoms."
+          },
+          { text: "Seek the throne first, cautiously and wisely, believing that Helen can never turn down a powerful King.",
+            consequence: "You reach for rule and love at once, and the world prepares to punish such hunger." },
+          { text: "Continue pursuing both Helen and power - love waits for no one, but neither does power.",
+            consequence: "Your greed is becoming the cause of a catastrophe that no wisdom can save." }
         ]
       },
       {
-        scenario: "Hera has united the nations in resentment, Aphrodite's spite has done its work, and Troy now stands beneath gathering doom. Yet one choice remains to you before the city falls. How will you meet the end?",
+        scenario: "Hera has united the nations in resentment, Aphrodite stirs the desire that is killing you within, and Troy now stands beneath gathering doom. Yet one choice remains to you before the city falls. How will you meet the end?",
         choices: [
-          { text: "Stand before the walls and die as Troy's last and greatest defender.", consequence: "You choose honor above survival, and the city's final songs gather around your name." },
-          { text: "Pray at last for wisdom enough to understand what all this strength was for.", consequence: "At the edge of destruction, you seek meaning rather than victory." },
-          { text: "Fight only for Helen now, even if Troy burns around you.", consequence: "Love and ruin become inseparable, and the city falls in the shadow of both." },
-          { text: "Pursue kingship to the bitter end, refusing to let doom strip you of ambition.", consequence: "Even with the walls shaking, you still reach upward, though the sky itself rejects the grasp." },
-          { text: "Accept that your legend and Troy's death will become one story forever.", consequence: "In that grim acceptance, you become worthy of memory at the very moment memory turns tragic." }
+          { text: "You are the final warrior of Troy before all. Stand before the walls and die as Troy's last and greatest defender.",
+            consequence: "You choose honor above survival, and the city's final songs gather around your name." },
+          { text: "Pray at last for wisdom enough to understand what all this strength was for.",
+            consequence: "At the edge of destruction, you seek meaning rather than victory." },
+          { text: "Rush through the enemies to seek for Helen, even if Troy burns around you.",
+            consequence: "Love and ruin become inseparable, and the city falls in the shadow of both." },
+          { text: "Pursue kingship to the bitter end, refusing to let doom strip you of ambition.",
+            consequence: "Even with the walls shaking, you still reach upward, though the sky itself rejects the grasp." },
+          { text: "Accept that you were never meant to outlive the fall of Troy.",
+            consequence: "For the first time, you seek neither victory nor escape, only the courage to meet the end as it comes." }
         ]
       }
     ],
 
     aphrodite: [
       {
-        scenario: "Aphrodite draws near and speaks Helen's name at last—the most beautiful woman in the world, already wedded to Menelaus of Sparta. The promise is yours, if you dare accept what it means. How do you answer?",
+        scenario: "Aphrodite draws near and speaks Helen's name at last - the most beautiful woman in the world, although already wedded to Menelaus of Sparta. The promise is yours, if you dare accept what it means. How do you answer?",
         choices: [
           {
             action: "confirmDoubt",
             text: "Doubt Aphrodite. Ask whether a wedded woman can truly be the fairest of all.",
-            consequence: "The smile leaves Aphrodite's face at once. Above you, Zeus stirs in anger, for nothing escapes the king of the gods, and your doubt insults both divine knowledge and Aphrodite's judgment."
+            consequence: "The smile leaves Aphrodite's face at once. Above you, Zeus stirs in anger, for nothing escapes the king of the gods, doubt his beloved daughter and you doubt both divine deity and Aphrodite's judgment."
           },
           {
             action: "toSparta",
             text: "Tell Aphrodite you do not care that Helen is wedded.",
-            consequence: "Aphrodite's eyes gleam with dangerous approval. Whatever vows bind Helen to Sparta, desire now outruns honor, and the road before you points toward Menelaus's halls."
+            consequence: "Aphrodite's eyes smile with approval. Your desire has slipped out of its sleeve, each step taking you closer to the hall of Menelaus."
           },
           {
             action: "toSparta",
             text: "Ask whether Helen would come willingly, if the goddess truly favored you.",
-            consequence: "Aphrodite does not answer with words alone; the certainty in her expression is more troubling than comfort. Whether by longing, persuasion, or fate, Sparta now waits before you."
+            consequence: "Aphrodite does not answer with words alone; yet she assures you her promise will be fulfilled."
           },
           {
             action: "toSparta",
             text: "Say that no prize given by a goddess could possibly come without blood.",
-            consequence: "Aphrodite laughs softly, neither denying the danger nor lessening it. Yet even with dread settling in your heart, you do not refuse her path."
+            consequence: "Aphrodite laughs softly, neither denying the danger nor lessening it. Yet it is too late to turn back, you do not dare to refuse her path."
           },
           {
             action: "toSparta",
             text: "Accept in silence, though the name of Menelaus weighs on you.",
-            consequence: "You say little, but your silence is consent enough. The promise has been sealed, and every unspoken fear follows you toward Sparta."
+            consequence: "You say little, understanding the promise has been sealed, and every unspoken fear follows you toward Sparta."
           }
         ]
       },
       {
-        scenario: "You stand in Sparta, beneath another king's roof, and Helen's beauty is exactly as promised. What do you do when feeling becomes action?",
+        scenario: "You stand in Sparta, beneath another king’s roof, and one glance at Helen’s beauty seizes your heart exactly as Aphrodite promised. Weighted by your own desire, what is your next move?",
         choices: [
-          { text: "Speak gently with Helen and trust Aphrodite to guide the rest.", consequence: "The goddess's power works through glances, words, and dangerous sympathy." },
-          { text: "Reveal your passion immediately, even at risk of scandal.", consequence: "Your honesty is reckless, and therefore all the more difficult to refuse." },
-          { text: "Struggle against the desire and remind yourself she is Menelaus's wife.", consequence: "Conscience still speaks within you, though Aphrodite's gift makes it tremble." },
-          { text: "Ask Helen whether she would choose Troy if the gods were silent.", consequence: "Her answer is uncertain, and that uncertainty wounds you more than refusal." },
-          { text: "Take what Aphrodite promised and let the consequences follow later.", consequence: "You choose passion without measure, and fate takes careful note." }
+          { text: "Find a time to speak gently with Helen and trust Aphrodite to guide the rest.",
+            consequence: "The goddess's promise doesn't falter and Helen warms up with you." },
+          { text: "Reveal your passion immediately, even at risk of scandal.",
+            consequence: "Your honesty is reckless, and therefore all the more difficult to refuse." },
+          { text: "Struggle against the desire and remind yourself she is Menelaus's wife.",
+            consequence: "Conscience still speaks within you, yet you can't stop your feelings for her." },
+          { text: "Ask Helen whether she would choose Troy if the gods were silent.",
+            consequence: "Her answer is uncertain, and that uncertainty wounds you more than refusal." },
+          { text: "Take what Aphrodite promised and let the consequences follow later.",
+            consequence: "You choose passion without cautiousness, believing that you earned this prize." }
         ]
       },
       {
-        scenario: "Whispers spread, Menelaus is dishonored, and the first shadows of war lengthen. When Helen is ready to leave, what kind of man are you?",
+        scenario: "Whispers spread, Menelaus is dishonored, and war is inevitable if you take another king's wife. When Helen is ready to leave, what kind of man are you?",
         choices: [
-          { text: "Bring her to Troy at once, trusting Aphrodite against all enemies.", consequence: "Love becomes defiance, and the sea itself feels like a threshold to war." },
-          { text: "Beg Helen to stay behind, hoping to spare her and Troy alike.", consequence: "For a moment you try to undo the very gift you once desired." },
-          { text: "Send word to Troy first and ask whether your father will receive her.", consequence: "Duty tries to catch up with desire, though too late to keep everything clean." },
+          { text: "Bring her to Troy at once, trusting Aphrodite against all enemies.",
+            consequence: "Love becomes all you need, you recklessly ignore all others." },
+          { text: "Afraid of bringing war to your beloved city, you tried to convince Helen to stay behind.",
+            consequence: "For a moment you try to undo the very gift you once desired. Yet Helen refuses, claiming it's too late." },
+          { text: "Send word to Troy first and ask whether your father will receive her.",
+            consequence: "Duty tries to catch up with desire, though too late to keep everything clean. Yet before you can receive the answer, you flee with Helen to ensure her safety." },
           {
             action: "aphroditeReturnHelen",
             text: "Offer to return Helen if peace can still be saved.",
-            consequence: "Repentance comes at last, but it comes after oaths have been broken, kings have been enraged, and war has already begun to move."
+            consequence: "You offer Helen back, but the gesture is ash in the wind; oaths lie in ruins, kings howl for blood, and the war you unleashed now moves out of your control."
           },
           {
             action: "aphroditeBlame",
             text: "Blame Aphrodite for what has happened and deny responsibility.",
-            consequence: "In terror and shame, you cast the guilt upward and accuse the goddess whose favor first drew Helen to you. Such words are more than cowardice now—they are blasphemy."
+            consequence: "In terror and shame, you cast the guilt upward and accuse the goddess whose favor first drew Helen to you. Such words are more than cowardice - they are blasphemy."
           }
         ]
       },
       {
         scenario: "Greek ships gather. Hera and Athena now stand against Troy, while Aphrodite shields what she can. As war becomes unavoidable and the city nears its last hour, what do you cling to most?",
         choices: [
-          { text: "Helen, whatever the cost, nothing matters as long as you have Helen.", consequence: "Love becomes your law, and you refuse all other claims beside the one your heart has chosen." },
-          { text: "Honor—face what you have done and die defending the city you helped doom.", consequence: "At last you stop hiding behind the gods and choose to bear the weight yourself." },
-          { text: "Believe Aphrodite will save all things in the end.", consequence: "You trust beauty against fire, even when the smoke already fills Troy's sky." },
-          { text: "Try to save only yourself from the ruin that follows.", consequence: "Fear narrows the world into a smaller, meaner shape, and the gods take notice." },
-          { text: "Pray that love may still mean something, even if it cannot save the city.", consequence: "You seek tenderness in the last hours, knowing the walls will not stand." }
+          { text: "Helen, because I refuse to abandon the choice my heart already made.",
+            consequence: "Love becomes your law, and you refuse all other claims beside the one your heart has chosen." },
+          { text: "Honor, face what you have done and die defending the city you helped doom.",
+            consequence: "At last you stop hiding behind the gods and choose to bear the weight yourself." },
+          { text: "Believe Aphrodite will save all things in the end.",
+            consequence: "You trust beauty against fire, even when the smoke already fills Troy's sky." },
+          { text: "Try to save only yourself from the ruin that follows.",
+            consequence: "Fear narrows the world of a coward, as the gods watch in mockery." },
+          { text: "Even if you can't save the city, you swear to stand beside the one you love until your final moment.",
+            consequence: "You seek tenderness in the last hours, knowing the walls will not stand." }
         ]
       }
     ]
@@ -765,7 +800,7 @@ Choose, Paris, if you dare.`;
     special: {
       selfPunished: {
         title: "The Mockery of Olympus",
-        text: "You raise the apple for yourself, and the insult lands like sacrilege. Hera's wrath strips you of station, Athena curses your judgment, and Aphrodite ensures that your name is remembered not for beauty, but for foolishness. Before Troy can even hear of your choice, divine punishment falls, and your story ends in humiliation and ruin.",
+        text: "You raise the apple for yourself, and the Olympus gods laugh at your blasphemy. Hera's wrath strips you of your status and power, Athena curses your judgment, and Aphrodite ensures that your name is remembered not for beauty, but for foolishness. Before Troy can even hear of your name, divine punishment falls, and your story ends in humiliation and ruin.",
         bad: true
       }
     },
@@ -1317,12 +1352,12 @@ Choose, Paris, if you dare.`;
         return;
       }
 
-      if (lastSelectedText === "Choose the child who proved worthy in fair contest, then die protecting the heir who will carry your bloodline onward.") {
+      if (lastSelectedText === "Select the child who earned the crown in fair contest, and protecting him to your final moment.") {
         showEnding("heraCompetitionVictory");
         return;
       }
 
-      if (lastSelectedText === "Entrust everything to your favorite child and cast the rest of the family aside.") {
+      if (lastSelectedText === "Entrust everything to your favorite child, even if that cost citizens' lives and your own kin - one capable child is all you need.") {
         showEnding("heraAssassinated");
         return;
       }
@@ -1332,7 +1367,7 @@ Choose, Paris, if you dare.`;
         return;
       }
 
-      if (lastSelectedText === "Refuse to name a successor even now, believing the crown must remain undivided until you die.") {
+      if (lastSelectedText === "Refuse to name any heir yet again, believing that choosing in the midst of chaos would only make the ruin worse.") {
         showEnding("heraNoHeir");
         return;
       }
@@ -1343,8 +1378,8 @@ Choose, Paris, if you dare.`;
 
     if (branchKey === "athena") {
       if (
-        lastSelectedText === "Stand before the walls and die as Troy's last and greatest defender." ||
-        lastSelectedText === "Accept that your legend and Troy's death will become one story forever."
+        lastSelectedText === "You are the final warrior of Troy before all. Stand before the walls and die as Troy's last and greatest defender." ||
+        lastSelectedText === "Accept that you were never meant to outlive the fall of Troy."
       ) {
         showEnding("athenaHonor");
         return;
@@ -1361,14 +1396,14 @@ Choose, Paris, if you dare.`;
 
     if (branchKey === "aphrodite") {
       if (
-        lastSelectedText === "Helen, whatever the cost, nothing matters as long as you have Helen." ||
-        lastSelectedText === "Pray that love may still mean something, even if it cannot save the city."
+        lastSelectedText === "Helen, because I refuse to abandon the choice my heart already made." ||
+        lastSelectedText === "Even if you can't save the city, you swear to stand beside the one you love until your final moment."
       ) {
         showEnding("aphroditeLove");
         return;
       }
 
-      if (lastSelectedText === "Honor—face what you have done and die defending the city you helped doom.") {
+      if (lastSelectedText === "Honor, face what you have done and die defending the city you helped doom.") {
         showEnding("aphroditeFulfillment");
         return;
       }
@@ -1376,39 +1411,67 @@ Choose, Paris, if you dare.`;
       showEnding("aphroditeDefault");
     }
   }
+  const TOTAL_ENDINGS = 20;
 
+  function getUnlockedEndings() {
+    return JSON.parse(localStorage.getItem("unlockedEndings") || "[]");
+  }
+
+  function updateEndingCounter() {
+    const counter = document.getElementById("ending-counter");
+    if (!counter) return;
+
+    const unlocked = getUnlockedEndings();
+    const uniqueCount = new Set(unlocked).size;
+    counter.textContent = `Unique endings found: ${uniqueCount}/${TOTAL_ENDINGS}`;
+  }
+
+  function unlockEnding(endingId) {
+    const unlocked = getUnlockedEndings();
+
+    if (!unlocked.includes(endingId)) {
+      unlocked.push(endingId);
+      localStorage.setItem("unlockedEndings", JSON.stringify(unlocked));
+    }
+
+    updateEndingCounter();
+  }
   function showEnding(key) {
     buildProgress();
     const ending = getEnding(key);
 
     if (!ending) {
       content.innerHTML = `
-          <div class="fade">
-            <div class="step-label">Error</div>
-            <div class="scenario">Ending not found: ${key}</div>
-            <div class="button-row">
-              <button class="restart" onclick="renderIntro()">Restart</button>
-            </div>
-          </div>
-        `;
+      <div class="fade">
+        <div class="step-label">Error</div>
+        <div class="scenario">Ending not found: ${key}</div>
+        <div class="button-row">
+          <button class="restart" onclick="renderIntro()">Restart</button>
+        </div>
+      </div>
+    `;
       return;
     }
 
     let stateClass = "";
-    if (ending.bad === true) stateClass = " bad-ending";
-    if (ending.good === true) stateClass = " good-ending";
+    if (ending.bad === true) stateClass = "bad-ending";
+    if (ending.good === true) stateClass = "good-ending";
 
     content.innerHTML = `
-        <div class="ending${stateClass} fade">
-          <div class="step-label">Fate Decided</div>
-          <h1>${ending.title}</h1>
-          <p>${ending.text}</p>
-          <button class="restart" onclick="renderIntro()">Play Again</button>
-        </div>
-      `;
+    <div class="ending ${stateClass} fade">
+      <div class="step-label">Fate Decided</div>
+      <h1>${ending.title}</h1>
+      <p>${ending.text}</p>
+      <button class="restart" onclick="renderIntro()">Play Again</button>
+    </div>
+  `;
+
+    unlockEnding(key);
   }
 
   renderIntro();
+  updateEndingCounter();
 </script>
+<div id="ending-counter">Unique endings found: 0/20</div>
 </body>
 </html>
